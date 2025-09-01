@@ -32,7 +32,7 @@ jobs:
 
       # 5️⃣ Remove resource from state
       - name: Remove resource from Terraform state
-        run: terraform state show 'module.eks_backend.aws_eks_cluster.this'
+        run: terraform state list |grep sentinel
 
 
 
