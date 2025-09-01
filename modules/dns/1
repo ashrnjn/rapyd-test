@@ -1,0 +1,27 @@
+resource "aws_route53_zone" "this" {
+  name = var.zone_name
+  vpc {
+    vpc_id = var.vpc_ids[0]
+  }
+  # Additional VPC associations below
+}
+
+resource "aws_route53_vpc_association_authorization" "extra" {
+  count = length(var.vpc_ids) > 1 ? length(slice(var.vpc_ids, 1, length(var.vpc_ids))) : 0
+
+  vpc_id     = element(var.vpc_ids, count.index + 1)
+  zone_id    = aws_route53_zone.this.zone_id
+}
+
+resource "aws_route53_record" "backend" {
+  zone_id = aws_route53_zone.this.zone_id
+  name    = "${var.record_name}.${var.zone_name}"
+  type    = "CNAME"
+  ttl     = 60
+  records = [var.backend_alb_dns]
+}
+
+output "backend_fqdn" {
+  value = aws_route53_record.backend.fqdn
+}
+
