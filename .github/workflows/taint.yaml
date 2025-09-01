@@ -32,7 +32,7 @@ jobs:
 
       # 5️⃣ Remove resource from state
       - name: Remove resource from Terraform state
-        run: terraform state list |grep sentinel
+        run: terraform state list | grep sentinel || true
 
 
 
