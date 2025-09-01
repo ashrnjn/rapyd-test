@@ -46,41 +46,44 @@ jobs:
 
     - name: Terraform Apply (Networking)
       run: |
-        terraform apply -auto-approve 
+        terraform apply \ 
              -var-file=envs/dev/terraform.tfvars \
              -target=module.vpc_backend \
              -target=module.vpc_gateway \
-             -target=module.peering
+             -target=module.peering \
+             -auto-approve
 
     # ---- EKS Plan & Apply ----
     - name: Terraform Plan (EKS)
       run: |
-        terraform plan 
+        terraform plan \
              -var-file=envs/dev/terraform.tfvars \
              -target=module.eks_backend \
              -target=module.eks_gateway
 
     - name: Terraform Apply (EKS)
       run: |
-       terraform apply -auto-approve 
+       terraform apply \
              -var-file=envs/dev/terraform.tfvars \
              -target=module.eks_backend \
-             -target=module.eks_gateway
+             -target=module.eks_gateway \
+             -auto-approve 
 
     # ---- ALB Controller Plan & Apply ----
     - name: Terraform Plan (ALB Controllers)
       run: |
-        terraform plan 
+        terraform plan \
              -var-file=envs/dev/terraform.tfvars \
              -target=module.alb_controller_backend \
              -target=module.alb_controller_gateway
 
     - name: Terraform Apply (ALB Controllers)
       run: |
-        terraform apply -auto-approve 
+        terraform apply \
              -var-file=envs/dev/terraform.tfvars \
              -target=module.alb_controller_backend \
-             -target=module.alb_controller_gateway
+             -target=module.alb_controller_gateway \
+             -auto-approve
     
     - name: Wait for ALB Controller to be ready
       run: |
@@ -95,9 +98,10 @@ jobs:
     
     - name: Terraform Apply (Backend App)
       run: |
-        terraform apply -auto-approve
+        terraform apply \
              -var-file=envs/dev/terraform.tfvars \
-             -target=module.backend_app
+             -target=module.backend_app \
+             -auto-approve
 
     - name: Wait for Backend DNS to be ready
       run: |
@@ -123,9 +127,10 @@ jobs:
              -target=module.gateway_app
     - name: Terraform Apply (Gateway App)
       run: |
-        terraform apply -auto-approve
+        terraform apply \
              -var-file=envs/dev/terraform.tfvars \
-             -target=module.gateway_app
+             -target=module.gateway_app \
+             -auto-approve
 
 
 
