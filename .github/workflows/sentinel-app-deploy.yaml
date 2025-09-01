@@ -46,7 +46,7 @@ jobs:
 
     - name: Terraform Apply (Networking)
       run: |
-        terraform apply \ 
+        terraform apply \
              -var-file=envs/dev/terraform.tfvars \
              -target=module.vpc_backend \
              -target=module.vpc_gateway \
@@ -116,9 +116,10 @@ jobs:
     
     - name: Terraform Apply (Backend App)
       run: |
-        terraform apply -auto-approve
+        terraform apply \
              -var-file=envs/dev/terraform.tfvars \
-             -target=module.dns
+             -target=module.dns \
+             -auto-approve
     
     - name: Terraform Plan (Gateway App)
       run: |
