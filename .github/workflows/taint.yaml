@@ -1,0 +1,42 @@
+name: Terraform Remove + Apply
+
+on:
+  workflow_dispatch:  # allows manual trigger from GitHub Actions UI
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2️⃣ Configure AWS credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+
+      # 3️⃣ Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.0
+
+      # 4️⃣ Terraform Init
+      - name: Terraform Init
+        run: terraform init -reconfigure
+
+      # 5️⃣ Remove resource from state
+      - name: Remove resource from Terraform state
+        run: terraform state rm module.vpc_gateway.aws_eip.nat["0"]
+
+      - name: Remove resource from Terraform state
+        run: terraform state rm module.vpc_backend.aws_eip.nat["1"]
+
+      # 6️⃣ Apply Terraform
+      - name: Terraform Apply
+        run: terraform apply -var-file=envs/dev/terraform.tfvars -auto-approve
