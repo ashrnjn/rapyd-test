@@ -27,7 +27,7 @@ data "aws_caller_identity" "current" {}
 
 resource "aws_iam_role_policy_attachment" "this" {
   role       = aws_iam_role.this.name
-  policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/LoadBalancerControllerPolicy"
+  policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/aashish-eks-LoadBalancerControllerPolicy"
 }
 
 resource "kubernetes_service_account" "this" {
