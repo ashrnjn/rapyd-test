@@ -116,7 +116,7 @@ resource "kubernetes_ingress_v1" "this" {
   }
 }
 
-/*
+
 data "external" "alb_dns" {
   program = [
     "bash",
@@ -141,7 +141,7 @@ output "gateway_lb_dns" {
   description = "The DNS name of the internet-facing Application Load Balancer."
   value       = data.external.alb_dns.result.url
 }
-*/
+
 /*
 output "gateway_lb_dns" {
   #  value = kubernetes_ingress_v1.this.status[0].load_balancer[0].ingress[0].hostname

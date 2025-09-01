@@ -110,25 +110,21 @@ jobs:
     - name: Update kubeconfig for gateway cluster
       run: |
         aws eks update-kubeconfig \
-        --name aashish-eks-gateway \
+        --name sentinel-gateway \
         --region eu-west-2 \
         --name aashish-eks-gateway
     
-    - name: Deploy gateway manifests
+    - name: Terraform Plan (Gateway App)
       run: |
-          kubectl apply -f gateway-manifest.yaml --context aashish-eks-gateway
-    # - name: Terraform Plan (Gateway App)
-    #   run: |
-    #     terraform plan
-    #          -var-file=envs/dev/terraform.tfvars \
-    #          -target=module.gateway_app
-    
-    # - name: Terraform Apply (Gateway App)
-    #   run: |
-    #     terraform apply \
-    #          -var-file=envs/dev/terraform.tfvars \
-    #          -target=module.gateway_app \
-    #          -auto-approve
+        terraform plan
+             -var-file=envs/dev/terraform.tfvars \
+             -target=module.gateway_app
+    - name: Terraform Apply (Gateway App)
+      run: |
+        terraform apply \
+             -var-file=envs/dev/terraform.tfvars \
+             -target=module.gateway_app \
+             -auto-approve
 
 
 
