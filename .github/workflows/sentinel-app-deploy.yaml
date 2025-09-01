@@ -37,7 +37,8 @@ jobs:
 
     # ---- Networking Plan & Apply ----
     - name: Terraform Plan (Networking)
-      run: terraform plan \
+      run: |
+       terraform plan \
              -var-file=envs/dev/terraform.tfvars \
              -target=module.vpc_backend \
              -target=module.vpc_gateway \
