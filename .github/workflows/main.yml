@@ -1,0 +1,2 @@
+name: Terraform Plan (networking)
+run: terraform destroy -var-file=envs/dev/terraform.tfvars
