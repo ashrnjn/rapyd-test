@@ -28,15 +28,14 @@ jobs:
 
       # 4️⃣ Terraform Init
       - name: Terraform Init
-        run: terraform init -reconfigure
+        run: terraform init 
 
       # 5️⃣ Remove resource from state
       - name: Remove resource from Terraform state
-        run: terraform state rm module.vpc_gateway.aws_eip.nat["0"]
+        run: terraform state show 'module.eks_backend.aws_eks_cluster.this'
 
-      - name: Remove resource from Terraform state
-        run: terraform state rm module.vpc_backend.aws_eip.nat["1"]
 
-      # 6️⃣ Apply Terraform
-      - name: Terraform Apply
-        run: terraform apply -var-file=envs/dev/terraform.tfvars -auto-approve
+
+      
+
+     
