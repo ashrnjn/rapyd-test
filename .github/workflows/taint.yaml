@@ -32,9 +32,11 @@ jobs:
 
       # 5️⃣ Remove resource from state
       - name: Remove resource from Terraform state
-        run: terraform refresh
+        run: terraform output eks_backend_cluster_name
+
+
 
       - name: Remove resource from Terraform state
-        run: terraform terraform output eks_gateway_cluster_name
+        run: terraform output eks_backend_cluster_endpoint
 
      
