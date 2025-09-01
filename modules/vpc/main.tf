@@ -113,13 +113,13 @@ resource "aws_route_table_association" "private" {
 resource "aws_vpc_endpoint" "gateway" {
   for_each          = toset(var.gateway_endpoints)
   vpc_id            = aws_vpc.this.id
-  service_name      = "com.amazonaws.${data.aws_region.current.id}.${each.key}"
+  service_name      = "com.amazonaws.${var.region}.${each.key}"
   vpc_endpoint_type = "Gateway"
   route_table_ids   = [for rt in aws_route_table.private : rt.id]
   tags              = merge(var.tags, { Name = "${var.name}-vpce-${each.key}" })
 }
 
-data "aws_region" "current" {}
+# data "aws_region" "current" {}
 
 # Security group for Interface endpoints (restrict to VPC CIDR)
 resource "aws_security_group" "endpoints" {
@@ -152,7 +152,7 @@ resource "aws_vpc_endpoint" "interface" {
   subnet_ids        = [for s in aws_subnet.private : s.id]
   security_group_ids = [aws_security_group.endpoints.id]
   private_dns_enabled = true
-  tags              = merge(var.tags, { Name = "${var.name}-vpce-${replace(each.value, "com.amazonaws.${data.aws_region.current.id}.", "")}" })
+  tags              = merge(var.tags, { Name = "${var.name}-vpce-${replace(each.value, "com.amazonaws.${var.region}.", "")}" })
 }
 
 

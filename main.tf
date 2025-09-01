@@ -5,6 +5,7 @@
 module "vpc_gateway" {
   source                   = "./modules/vpc"
   name                     = "${var.name_prefix}-gateway"
+  region                   = "${var.aws_region}"
   vpc_cidr                 = var.gateway_vpc_cidr
   private_subnets          = var.gateway_private_subnets
   public_subnets           = var.gateway_public_subnets
