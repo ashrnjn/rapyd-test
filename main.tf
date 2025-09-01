@@ -25,7 +25,7 @@ module "vpc_gateway" {
   ]
   gateway_endpoints = ["s3"]
   is_gateway   = true
-  cluster_name = "sentinel-eks-gateway"
+  cluster_name = "aashish-eks-gateway"
   tags              = var.tags
 }
 
@@ -52,7 +52,7 @@ module "vpc_backend" {
   ]
   gateway_endpoints = ["s3", "dynamodb"]
   is_gateway   = false
-  cluster_name = "sentinel-eks-backend"
+  cluster_name = "aashish-eks-backend"
   tags              = var.tags
 }
 
@@ -80,7 +80,7 @@ module "peering" {
 
 module "eks_gateway" {
   source                       = "./modules/eks"
-  name                         = "${var.name_prefix}-eks-gateway"
+  name                         = "${var.name_prefix}-gateway"
   cluster_version              = var.eks_version
   subnet_ids                   = module.vpc_gateway.private_subnet_ids
   vpc_id                       = module.vpc_gateway.vpc_id
@@ -96,7 +96,7 @@ module "eks_gateway" {
 
 module "eks_backend" {
   source                       = "./modules/eks"
-  name                         = "${var.name_prefix}-eks-backend"
+  name                         = "${var.name_prefix}-backend"
   cluster_version              = var.eks_version
   subnet_ids                   = module.vpc_backend.private_subnet_ids
   vpc_id                       = module.vpc_backend.vpc_id
@@ -152,7 +152,7 @@ module "backend_app" {
     kubernetes = kubernetes.backend
     helm       = helm.backend
   }
-  namespace  = "sentinel-backend"
+  namespace  = "aashish-eks-backend"
   #alb_sg_id  = aws_security_group.backend_alb.id
   app_image  = "hashicorp/http-echo:1.0"
   app_text   = "Hello from backend"
@@ -161,14 +161,15 @@ module "backend_app" {
 ############################
 # DNS
 ############################
-
+/*
 module "dns" {
   source          = "./modules/dns"
-  zone_name       = "sentinel.local"
+  zone_name       = "aashish-eks.local"
   vpc_ids         = [module.vpc_backend.vpc_id, module.vpc_gateway.vpc_id]
   backend_alb_dns = module.backend_app.ingress_hostname
   record_name     = "backend"
 }
+*/
 
 ############################
 # Gateway App
@@ -181,8 +182,8 @@ module "gateway_app" {
     kubernetes = kubernetes.gateway
     helm       = helm.gateway
   }
-  namespace  = "sentinel-gateway"
-  backend_dns = module.dns.backend_fqdn
+  namespace  = "aashish-eks-gateway"
+  backend_dns = module.backend_app.ingress_hostname
 }
 
 output "gateway_vpc_id" { value = module.vpc_gateway.vpc_id }

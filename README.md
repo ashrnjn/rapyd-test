@@ -5,7 +5,7 @@ This repository provisions two isolated VPCs with private subnets, NAT, VPC endp
 > **Note:** No public EC2 instances are created. Public subnets exist only to host NAT Gateways and the gateway cluster's public Load Balancer when you deploy an ingress/proxy.
 
 ## What gets created
-- `vpc-gateway` and `vpc-backend` (CIDRs configurable)
+- `vpc-gateway` and `vpc-backend` 
 - Private subnets (2 AZs), Public subnets (for NAT/LB)
 - NAT Gateways (1 per AZ), route tables
 - VPC Endpoints for SSM, KMS, Secrets Manager, ECR, Logs, EC2, and S3/DynamoDB
@@ -20,4 +20,3 @@ cd .. && terraform init
 terraform apply
 ```
 
-After clusters are created, configure `aws-auth` ConfigMap to allow node role access. You can use the output IAM roles from the EKS modules and apply via `kubectl`.
