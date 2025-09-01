@@ -69,3 +69,36 @@ jobs:
       run: terraform apply -auto-approve -var-file=envs/dev/terraform.tfvars \
              -target=module.alb_controller_backend \
              -target=module.alb_controller_gateway
+    
+    - name: Wait for ALB Controller to be ready
+      run: |
+        echo "⏳ Waiting 120 seconds for ALB controller pods..."
+        sleep 120
+
+    - name: Terraform Plan (Backend App)
+      run: terraform plan-auto-approve -var-file=envs/dev/terraform.tfvars \
+             -target=module.backend_app
+    - name: Terraform Apply (Backend App)
+      run: terraform apply -auto-approve -var-file=envs/dev/terraform.tfvars \
+             -target=module.backend_app
+
+    - name: Wait for Backend DNS to be ready
+      run: |
+        echo "⏳ Waiting 120 seconds for ALB controller pods..."
+        sleep 120
+    
+    - name: Terraform Plan (dns)
+      run: terraform plan-auto-approve -var-file=envs/dev/terraform.tfvars \
+             -target=module.dns
+    - name: Terraform Apply (Backend App)
+      run: terraform apply -auto-approve -var-file=envs/dev/terraform.tfvars \
+             -target=module.dns
+    
+    - name: Terraform Plan (Gateway App)
+      run: terraform plan-auto-approve -var-file=envs/dev/terraform.tfvars \
+             -target=module.gateway_app
+    - name: Terraform Apply (Gateway App)
+      run: terraform apply -auto-approve -var-file=envs/dev/terraform.tfvars \
+             -target=module.gateway_app
+
+
