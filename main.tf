@@ -192,6 +192,6 @@ output "eks_gateway_cluster_name" { value = module.eks_gateway.cluster_name }
 output "eks_backend_cluster_name" { value = module.eks_backend.cluster_name }
 output "backend_alb_dns" {  value = module.backend_app.ingress_hostname }
 #output "backend_private_dns" {  value = module.dns.backend_fqdn }
-output "gateway_lb_dns" {  value = module.gateway_app.gateway_lb_dns }
+#output "gateway_lb_dns" {  value = module.gateway_app.gateway_lb_dns }
 
 
