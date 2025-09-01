@@ -32,6 +32,7 @@ module "vpc_gateway" {
 module "vpc_backend" {
   source                   = "./modules/vpc"
   name                     = "${var.name_prefix}-backend"
+  region                   = "${var.aws_region}"
   vpc_cidr                 = var.backend_vpc_cidr
   private_subnets          = var.backend_private_subnets
   public_subnets           = var.backend_public_subnets
