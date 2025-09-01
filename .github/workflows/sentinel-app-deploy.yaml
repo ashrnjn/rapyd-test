@@ -107,18 +107,24 @@ jobs:
       run: |
         echo "⏳ Waiting 120 seconds for ALB controller pods..."
         sleep 120
+    - name: Update kubeconfig for gateway cluster
+      run: |
+        aws eks update-kubeconfig \
+        --name sentinel-gateway \
+        --region eu-west-2 \
+        --name aashish-eks-gateway
     
     - name: Terraform Plan (Gateway App)
       run: |
         terraform plan
              -var-file=envs/dev/terraform.tfvars \
              -target=module.gateway_app
-    - name: Terraform Apply (Gateway App)
-      run: |
-        terraform apply \
-             -var-file=envs/dev/terraform.tfvars \
-             -target=module.gateway_app \
-             -auto-approve
+    # - name: Terraform Apply (Gateway App)
+    #   run: |
+    #     terraform apply \
+    #          -var-file=envs/dev/terraform.tfvars \
+    #          -target=module.gateway_app \
+    #          -auto-approve
 
 
 
