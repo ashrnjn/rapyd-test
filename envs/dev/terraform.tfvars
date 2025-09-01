@@ -1,4 +1,4 @@
-aws_profile = "default"
+#aws_profile = "default"
 aws_region  = "eu-west-2"
 name_prefix = "sentinel"
 
