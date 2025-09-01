@@ -1,0 +1,9 @@
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Terraform Plan (Networking)
+      run: |
+       terraform destroy \
+             -var-file=envs/dev/terraform.tfvars
