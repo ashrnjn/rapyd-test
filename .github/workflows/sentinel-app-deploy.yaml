@@ -108,19 +108,6 @@ jobs:
         echo "⏳ Waiting 120 seconds for ALB controller pods..."
         sleep 120
     
-    - name: Terraform Plan (dns)
-      run: |
-        terraform plan 
-             -var-file=envs/dev/terraform.tfvars \
-             -target=module.dns
-    
-    - name: Terraform Apply (Backend App)
-      run: |
-        terraform apply \
-             -var-file=envs/dev/terraform.tfvars \
-             -target=module.dns \
-             -auto-approve
-    
     - name: Terraform Plan (Gateway App)
       run: |
         terraform plan
